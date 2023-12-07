@@ -20,22 +20,22 @@ const io = new Server( server, {
 });
 
 io.on("connection", (socket) => {
-        socket.on("join", ({ username, room} ) => {
+        socket.on("join", ({ name, room} ) => {
         socket.join(room);
 
-    const { user, isExist } = addUser({ username, room });
+    const { user, isExist } = addUser({ name, room });
 
-    const userMessage = isExist ? `${user.username}, here you go again!` : `Hey, my dear ${user.username}`;
+    const userMessage = isExist ? `${user.name}, here you go again!` : `Hey, my dear ${user.name}`;
 
     socket.emit("message", {
-        data: { user: { username: "Admin" }, message: userMessage },
+        data: { user: { name: "Admin" }, message: userMessage },
     });
  /// in the room sending message from server to client
     socket.broadcast.to(user.room).emit("message", {
-        data: { user: { username: "Admin" }, message: `Hey, ${user.username} has joined` },
+        data: { user: { name: "Admin" }, message: `Hey, ${user.name} has joined` },
     });
 
-    io.to(user.room).emit("joinRoom", { 
+    io.to(user.room).emit("room", { 
         data: { users: getRoomUsers(user.room) },
     });
 });
@@ -52,8 +52,8 @@ socket.on( "leftRoom", ({ params }) => {
     const user = removeUser(params);
 
         if (user) {
-            const { room, username } = user;
-            io.to(room).emit("message", { data: { user: { username: "Admin" }, message: `${username} has left` },
+            const { room, name } = user;
+            io.to(room).emit("message", { data: { user: { name: "Admin" }, message: `${name} has left` },
         });
 
             io.to(room).emit("room", {
