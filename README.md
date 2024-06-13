@@ -13,17 +13,16 @@ To get the server up and running locally, follow these steps:
    ```bash
    git clone https://github.com/KindrakevychNatali/chat-server.git
    cd chat-server
+   
 Install dependencies:
 
-bash
-Копировать код
 npm install
+
 Running the Server
 Start the server using the following command:
 
-bash
-Копировать код
 npm start
+
 The server will start on port 5000 by default. You can change this in the server.js file if needed.
 
 Server Structure
